@@ -1,24 +1,36 @@
 <script setup>
-import { RouterLink } from 'vue-router';
-
+    import { RouterLink } from 'vue-router';
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-    <div class="text-center p-8 bg-white rounded-lg shadow-md max-w-lg">
-      <h1 class="text-4xl font-bold text-gray-800 mb-4">Benvenuto in My Libretto</h1>
-      <p class="text-gray-600 mb-6">
-        Monitora il tuo percorso accademico, calcola la tua media e simula il voto di laurea.
+  <!-- Contenitore principale con sfondo quadrettato -->
+  <div class="flex items-center justify-center min-h-screen bg-quadretti-green p-4 sm:p-6 md:p-10">
+    
+    <!-- Card -->
+    <div class="relative w-full max-w-md sm:max-w-lg lg:max-w-4xl xl:max-w-5xl p-6 sm:p-10 lg:p-16 text-center bg-white border-2 border-black rounded-xl shadow-lg">
+      <!-- Linguetta tipo quaderno -->
+      <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-3 sm:px-4 py-1 bg-yellow-300 border-2 border-black rounded-t-md text-xs sm:text-sm md:text-base font-bold">
+        My Libretto
+      </div>
+
+      <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-900 mb-3 sm:mb-4">
+        Benvenuto in My Libretto
+      </h1>
+
+      <p class="text-xs sm:text-sm md:text-base lg:text-lg text-gray-700 mb-6 leading-snug sm:leading-relaxed">
+        Monitora il tuo percorso accademico, calcola la tua media e simula il tuo voto di laurea.
       </p>
-      <div class="flex space-x-4 justify-center">
-        <router-link to="/login" class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+        <router-link to="/login" class="px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white border-2 border-black rounded-md shadow hover:bg-blue-700 transition text-sm sm:text-base">
           Accedi
         </router-link>
-        <router-link to="/register" class="px-6 py-3 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition">
+        <router-link to="/register" class="px-4 sm:px-6 py-2 sm:py-3 bg-pink-300 border-2 border-black text-gray-900 rounded-md shadow hover:bg-pink-400 transition text-sm sm:text-base">
           Registrati
         </router-link>
       </div>
     </div>
+
   </div>
 </template>
 
