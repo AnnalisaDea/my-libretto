@@ -12,9 +12,18 @@
     background-size: 24px 24px;
   }
 
-  /* Quadretti rossi */
-  .bg-quadretti-red {
-    background-color: #f5bfbf; 
+  /* Quadretti rossa */
+  .bg-quadretti-pink {
+    background-color: #fbd1dd; 
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Quadretti blu */
+  .bg-quadretti-blu {
+    background-color: #d1dbfb; 
     background-image:
       linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
@@ -29,4 +38,5 @@
       linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
     background-size: 24px 24px;
   }
+
 }
