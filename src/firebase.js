@@ -7,13 +7,13 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyBO2e9HBU11oM7RsxWGZtrtFsLKW_971iM",
-    authDomain: "my-libretto.firebaseapp.com",
-    projectId: "my-libretto",
-    storageBucket: "my-libretto.firebasestorage.app",
-    messagingSenderId: "687246205179",
-    appId: "1:687246205179:web:318b63bc154d780d62d05e"
-};
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+}
 
 // Inizializza l'app di Firebase
 const app = initializeApp(firebaseConfig);
