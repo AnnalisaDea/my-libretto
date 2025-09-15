@@ -1,12 +1,15 @@
-import { ref, provide, inject } from "vue";
+import { ref, provide, inject, readonly } from "vue";
 import { auth, googleProvider } from "./firebase";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup } from "firebase/auth";
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup } from "firebase/auth";
 
 // Crea uno stato reattivo per l'utente
-const user = ref(null);
+export const user = ref(null);
 // Crea uno stato reattivo per il caricamento e gli errori
 const loading = ref(false);
+const loadingGoogle = ref(false);
 const error = ref(null);
+
+
 
 // Funzione per registrare un nuovo utente
 async function register (email, password) {
@@ -40,7 +43,7 @@ async function login(email, password) {
 
 // Aggiungi il login con provider esterni (es. Google)
 async function loginWithGoogle() {
-    loading.value = true;
+    loadingGoogle.value = true;
     try {
         error.value = null;
         const result = await signInWithPopup(auth, googleProvider);
@@ -49,7 +52,7 @@ async function loginWithGoogle() {
         error.value = err.message;
         throw err; // Rilancia l'errore per la gestione locale
     } finally {
-        loading.value = false;
+        loadingGoogle.value = false;
     }
 }
 
@@ -73,12 +76,19 @@ function resetError(){
     error.value = null;
 }
 
+// Setup auth state listener
+onAuthStateChanged(auth, (currentUser) => {
+    user.value = currentUser
+    loading.value = false
+})
+
 // Funzione per fornire le variabili e le funzioni di autenticazione ai componenti
 export function provideAuth() {
     const auth = {
-        user: user,
-        loading: loading,
-        error: error,
+        user: readonly(user),
+        loading: readonly(loading),
+        loadingGoogle: readonly(loadingGoogle),
+        error: readonly(error),
         register: register,
         login: login,
         logout: logout,

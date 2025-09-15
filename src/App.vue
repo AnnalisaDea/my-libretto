@@ -1,14 +1,22 @@
 <script setup>
-import { RouterView } from 'vue-router';
-import { provideAuth } from './auth'
 
-// Chiama la funzione per fornire il contesto di autenticazione presente in auth.js
-provideAuth()
+  import { RouterView } from 'vue-router';
+  import { provideAuth,user } from './auth';
+  import Navbar from '@/components/Navbar.vue';
+
+  provideAuth();
 
 </script>
 
 <template>
-  <RouterView />
+  <div class="flex flex-col min-h-screen">
+    <Navbar v-if="user" />
+
+    <RouterView />
+    
+  </div>
 </template>
 
-<style scoped></style>
+
+<style scoped>
+</style>
