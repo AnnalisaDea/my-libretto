@@ -3,7 +3,7 @@
     import { ref, onMounted } from 'vue';
     import { useAuth } from '../auth';
 
-    const { login, error, loading, resetError, loginWithGoogle } = useAuth();
+    const { login, error, loading, loadingGoogle,resetError, loginWithGoogle } = useAuth();
 
     const router = useRouter();
 
@@ -94,12 +94,12 @@
                         <div class="w-full border-t border-gray-300"></div>
                     </div>
                     <div class="relative flex justify-center text-sm">
-                        <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                        <span class="px-2 bg-white text-gray-500">Oppure continua con</span>
                     </div>
                 </div>
                 <!-- Google Button -->
                 <div class="mt-4">
-                    <button @click="handleGoogleLogin" :disabled="loading" class="w-full bg-white border-2 border-black text-black rounded-md shadow hover:bg-gray-100 transition disabled:bg-gray-300 px-4 py-2 text-sm sm:text-base font-bold">
+                    <button @click="handleGoogleLogin" :disabled="loadingGoogle" class="w-full bg-white border-2 border-black text-black rounded-md shadow hover:bg-gray-100 transition disabled:bg-gray-300 px-4 py-2 text-sm sm:text-base font-bold">
                     <span class="flex items-center justify-center">
                         <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24">
                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -108,7 +108,7 @@
                         <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                         <path d="M1 1h22v22H1z" fill="none" />
                         </svg>
-                        {{ loading ? 'Accesso in corso...' : 'Google' }}
+                        {{ loadingGoogle ? 'Accesso in corso...' : 'Google' }}
                     </span>
                     </button>
                 </div>

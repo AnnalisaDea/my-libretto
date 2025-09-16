@@ -22,12 +22,12 @@
       </p>
 
       <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-        <router-link to="/login" class="px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white border-2 border-black rounded-md shadow hover:bg-blue-700 transition text-sm sm:text-base">
+        <RouterLink to="/login" class="px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white border-2 border-black rounded-md shadow hover:bg-blue-700 transition text-sm sm:text-base">
           Accedi
-        </router-link>
-        <router-link to="/register" class="px-4 sm:px-6 py-2 sm:py-3 bg-pink-300 border-2 border-black text-gray-900 rounded-md shadow hover:bg-pink-400 transition text-sm sm:text-base">
+        </RouterLink>
+        <RouterLink to="/register" class="px-4 sm:px-6 py-2 sm:py-3 bg-pink-300 border-2 border-black text-gray-900 rounded-md shadow hover:bg-pink-400 transition text-sm sm:text-base">
           Registrati
-        </router-link>
+        </RouterLink>
       </div>
     </div>
 

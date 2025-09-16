@@ -10,7 +10,7 @@
 
 <template>
   <div class="flex flex-col min-h-screen">
-    <Navbar v-if="user" />
+    <Navbar v-if="user" class="sticky top-0 z-20"/>
 
     <RouterView />
     

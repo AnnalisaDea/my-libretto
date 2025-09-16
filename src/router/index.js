@@ -9,7 +9,6 @@ import ProfileSetupView from '@/views/ProfileSetupView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import ExamsView from '@/views/ExamsView.vue'
 import AddExamView from '@/views/AddExamView.vue'
-import SettingsView from '@/views/SettingsView.vue'
 import PredictionView from '@/views/PredictionView.vue'
 
 
@@ -54,12 +53,6 @@ const routes = [
       path: '/add-exam',
       name: 'AddExam',
       component: AddExamView,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/settings',
-      name: 'Settings',
-      component: SettingsView,
       meta: { requiresAuth: true }
     },
     {
