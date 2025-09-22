@@ -9,12 +9,24 @@ const preferenze = reactive({
     corso: '',
     matricola: '',
     tipoMedia: 'Aritmetica', // Valore di default
-    valutazione: '0 - 30', // Valore di default
     creditiTotali: 180, // Valore di default
     valoreLode: 30, // Valore di default
-    creditiEsclusi: 0, // Valore di default    
+    EsamiEsclusi: 0, // Valore di default    
     setupCompleto: false // Indica se il setup del profilo è completo
 });
+
+// Oggetto che contiene i valori predefiniti
+const defaultPreferences = {
+    nomeStudente: '',
+    università: '',
+    corso: '',
+    matricola: '',
+    tipoMedia: 'Aritmetica',
+    creditiTotali: 180,
+    valoreLode: 30,
+    EsamiEsclusi: 0,
+    setupCompleto: false
+};
 
 const loading = ref(false);
 const error = ref(null);
@@ -66,6 +78,14 @@ async function saveUserPreferences(user) {
     }
 }
 
+//funzione per resettare le preferenze
+function resetUserPreferences() {
+    // Reimposta l'oggetto preferenze ai suoi valori predefiniti
+    Object.assign(preferenze, defaultPreferences);
+    // Resetta anche le variabili di stato
+    loading.value = false;
+    error.value = null;
+}
 
 // funzione personalizzata per usare le preferenze utente
 export function useUserProfile() {
@@ -74,6 +94,7 @@ export function useUserProfile() {
         loading: readonly(loading),
         error: readonly(error),
         fetchUserPreferences,
-        saveUserPreferences
+        saveUserPreferences,
+        resetUserPreferences
     };
 }

@@ -52,17 +52,6 @@
                     </select>
                 </div>
 
-                <!-- Sistema di valutazione -->
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Sistema di valutazione *</label>
-                    <select v-model="preferenze.valutazione" class="w-full px-3 py-2 border border-gray-300 rounded-md">
-                        <option value="0 - 10">0 - 10</option>
-                        <option value="0 - 30">0 - 30</option>
-                        <option value="0 - 100">0 - 100</option>
-                        <option value="A - F">A - F</option>
-                    </select>
-                </div>
-
                 <!-- Crediti totali -->
                 <div class="mb-4 relative">
                     <label class="block text-sm font-medium text-gray-700 mb-1">
@@ -113,24 +102,24 @@
                 <!-- Crediti esclusi -->
                 <div class="mb-6 relative">
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                    Crediti esclusi *
+                    Numero esami esclusi con voto più basso *
                     <span
                     class="ml-2 text-xs bg-gray-200 rounded-full px-2 py-0.5 cursor-pointer relative group"
-                    title="Inserisci il numero di crediti con voto più basso che la tua università ti permette di eliminare dal calcolo della media e previsione di laurea. Se non previsto lascia 0."
+                    title="Inserisci il numero di esami con voto più basso che la tua università ti permette di eliminare dal calcolo della media e previsione di laurea. Se non previsto lascia 0."
                     >
                     i
                     <span
                         class="absolute bottom-full mb-2 hidden group-hover:block bg-black text-white text-xs rounded px-2 py-1 max-w-xs"
                     >
-                        Inserisci il numero di crediti con voto più basso che la tua università ti permette
-                        di eliminare dal calcolo della media e previsione di laurea. Se non previsto lascia
+                        Inserisci il numero di esami con voto più basso che la tua università ti permette
+                        di eliminare dal calcolo del voto di laurea. Se non previsto lascia
                         0.
                     </span>
                     </span>
                 </label>
                 <input
                     type="number"
-                    v-model="preferenze.creditiEsclusi"
+                    v-model="preferenze.EsamiEsclusi"
                     min="0"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md"
                 />

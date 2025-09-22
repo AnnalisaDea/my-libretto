@@ -8,8 +8,6 @@ import RegisterView from '@/views/RegisterView.vue'
 import ProfileSetupView from '@/views/ProfileSetupView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import ExamsView from '@/views/ExamsView.vue'
-import AddExamView from '@/views/AddExamView.vue'
-import PredictionView from '@/views/PredictionView.vue'
 
 
 const routes = [
@@ -47,18 +45,6 @@ const routes = [
       path: '/exams',
       name: 'Exams',
       component: ExamsView,
-      meta: { requiresAuth: true }
-    },
-    { 
-      path: '/add-exam',
-      name: 'AddExam',
-      component: AddExamView,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/prediction',
-      name: 'Prediction',
-      component: PredictionView,
       meta: { requiresAuth: true }
     }
   ];
