@@ -3,6 +3,12 @@
     import { useAuth } from "@/auth";
     import { useRouter } from "vue-router";
     import ConfirmModal from "@/components/ConfirmModal.vue";
+    
+    import { useUserPreferences } from "@/userSettings";
+    import { useExams } from "@/exam";
+
+    const { resetUserPreferences } = useUserPreferences();
+    const { resetExams } = useExams();
 
     const { user, logout, changePassword, deleteAccount, error } = useAuth();
 
@@ -36,7 +42,9 @@
         loadingLogout.value = true;
         try {
             await logout();
-            router.push('/login');
+            router.push('/welcome');                      
+            resetUserPreferences();
+            resetExams();
         } catch (err) {
             erroreLocale.value = err.message || "Errore durante il logout.";
         } finally {

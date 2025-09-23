@@ -1,5 +1,5 @@
 import { reactive, ref, readonly } from "vue";
-import { doc, getDoc, setDoc} from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
 // Oggetto preferenze reattivo
@@ -78,6 +78,34 @@ async function saveUserPreferences(user) {
     }
 }
 
+async function deleteUserProfile(user) {
+    if (!user.value) throw new Error("Nessun utente autenticato");
+
+    loading.value = true;
+    try {
+        error.value = null;
+
+        const userDocRef = doc(db, "users", user.value.uid);
+
+        // elimina sottocollezione exams
+        const examsColRef = collection(userDocRef, "exams");
+        const snapshot = await getDocs(examsColRef);
+        for (const exam of snapshot.docs) {
+            await deleteDoc(exam.ref);
+        }
+
+        // elimina documento utente
+        await deleteDoc(userDocRef);
+
+        resetUserPreferences();
+    } catch (err) {
+        error.value = err.message;
+        throw err;
+    } finally {
+        loading.value = false;
+    }
+}
+
 //funzione per resettare le preferenze
 function resetUserPreferences() {
     // Reimposta l'oggetto preferenze ai suoi valori predefiniti
@@ -95,6 +123,7 @@ export function useUserPreferences() {
         error: readonly(error),
         fetchUserPreferences,
         saveUserPreferences,
-        resetUserPreferences
+        resetUserPreferences,
+        deleteUserProfile
     };
 }

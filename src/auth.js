@@ -1,6 +1,7 @@
 import { ref, provide, inject, readonly } from "vue";
 import { auth, googleProvider } from "./firebase";
-import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup, updatePassword, updateEmail, deleteUser } from "firebase/auth";
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup, updatePassword, deleteUser } from "firebase/auth";
+import { useUserPreferences } from './userSettings.js';
 
 // Crea uno stato reattivo per l'utente
 export const user = ref(null);
@@ -9,7 +10,7 @@ const loading = ref(false);
 const loadingGoogle = ref(false);
 const error = ref(null);
 
-
+const { deleteUserProfile } = useUserPreferences();
 
 // Funzione per registrare un nuovo utente
 async function register (email, password) {
@@ -92,6 +93,7 @@ async function deleteAccount() {
     loading.value = true;
     try {
         error.value = null;
+        await deleteUserProfile(user); // elimina anche il profilo utente dal DB
         await deleteUser(user.value);
         user.value = null;
     } catch (err) {
