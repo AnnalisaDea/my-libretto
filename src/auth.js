@@ -1,6 +1,6 @@
 import { ref, provide, inject, readonly } from "vue";
 import { auth, googleProvider } from "./firebase";
-import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup } from "firebase/auth";
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup, updatePassword, updateEmail, deleteUser } from "firebase/auth";
 
 // Crea uno stato reattivo per l'utente
 export const user = ref(null);
@@ -71,6 +71,37 @@ async function logout() {
     }
 }
 
+// Funzione per aggiornare la password
+async function changePassword(newPassword) {
+    if (!user.value) throw new Error("Nessun utente autenticato");
+    loading.value = true;
+    try {
+        error.value = null;
+        await updatePassword(user.value, newPassword);
+    } catch (err) {
+        error.value = err.message;
+        throw err;
+    } finally {
+        loading.value = false;
+    }
+}
+
+// Funzione per eliminare l'account
+async function deleteAccount() {
+    if (!user.value) throw new Error("Nessun utente autenticato");
+    loading.value = true;
+    try {
+        error.value = null;
+        await deleteUser(user.value);
+        user.value = null;
+    } catch (err) {
+        error.value = err.message;
+        throw err;
+    } finally {
+        loading.value = false;
+    }
+}
+
 // Funzione per resettare l'errore
 function resetError(){
     error.value = null;
@@ -82,22 +113,24 @@ onAuthStateChanged(auth, (currentUser) => {
     loading.value = false
 })
 
-// Funzione per fornire le variabili e le funzioni di autenticazione ai componenti
 export function provideAuth() {
     const auth = {
         user: readonly(user),
         loading: readonly(loading),
         loadingGoogle: readonly(loadingGoogle),
         error: readonly(error),
-        register: register,
-        login: login,
-        logout: logout,
-        resetError: resetError,
-        loginWithGoogle: loginWithGoogle
+        register,
+        login,
+        logout,
+        resetError,
+        loginWithGoogle,
+        changePassword,   
+        deleteAccount    
     };
 
     provide('auth', auth);
 }
+
 
 // Funzione per iniettare le variabili e le funzioni di autenticazione nei componenti
 export function useAuth() {

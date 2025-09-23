@@ -1,13 +1,19 @@
 <script setup>
     import { ref, computed, defineEmits, defineProps} from "vue";
     import { useExams } from "@/exam";
-    import { TrashIcon } from "@heroicons/vue/24/outline";
+    import { TrashIcon } from "@heroicons/vue/24/outline";    
+    import ConfirmModal from '@/components/ConfirmModal.vue';
 
     const { exam, addExam, updateExam, loadingExams, errorExams, resetExam, deleteExam } = useExams();
     const erroreLocale = ref('');
+    const erroreEliminazione = ref('');
     
     // per emettere eventi al componente genitore
     const emit = defineEmits(["saved", "cancelled"]);
+
+    // per gestire la conferma dell'eliminazione
+    const showConfirmDelete = ref(false);
+    const loadingDeleteSignal = ref(false);
 
     const props = defineProps({
       examId: { type: String, default: null } // id passato dal genitore
@@ -45,27 +51,44 @@
         emit("cancelled"); // torna alla lista senza salvare
     }
 
-    async function handleDelete() {
+    async function handleDeleteExam() {
         if (!props.examId) return;
-        if (!confirm("Sei sicuro di voler eliminare questo esame?")) return;
+        loadingDeleteSignal.value = true;
+        erroreEliminazione.value = "";
 
-        erroreLocale.value = "";
         try {
             await deleteExam(props.examId);
             emit("saved"); // torna alla lista dopo eliminazione
         } catch (err) {
-            erroreLocale.value = err.message || "Errore durante l'eliminazione.";
+            erroreEliminazione.value = err.message || "Errore durante l'eliminazione.";
+        } finally {
+            loadingDeleteSignal.value = false;
+            showConfirmDelete.value = false;
         }
         
     }
 
-
 </script>
 
 <template>
-    <div class="w-full max-w-sm sm:max-w-lg lg:max-w-3xl p-10 sm:p-16 lg:p-20 bg-white border-2 border-black rounded-xl shadow-lg">
-        
+    <!-- Conferma eliminazione -->
+    <ConfirmModal
+        v-if="showConfirmDelete"
+        title="Conferma eliminazione"
+        message="Sei sicuro di voler eliminare questo esame?"
+        :loadingSignal="loadingDeleteSignal"
+        @confirm="handleDeleteExam"
+        @cancelled="showConfirmDelete = false"
+    />
 
+
+    <div class="w-full max-w-sm sm:max-w-lg lg:max-w-3xl p-10 sm:p-16 lg:p-20 bg-white border-2 border-black rounded-xl shadow-lg">
+       <!-- Stato di errore -->
+        <div v-if="erroreEliminazione" class="w-full max-w-sm sm:max-w-lg lg:max-w-3xl py-8 px-10 mb-8 bg-red-200 border-2 border-black rounded-xl shadow-lg">
+            <p class="text-md font-bold text-center">C'è stato un errore durante il completamento dell'operazione. Riprova più tardi.</p>
+        </div>
+
+        <!-- Form esame -->
         <form @submit.prevent="handleSubmit">
             <div class="w-full flex items-center justify-between mb-8">
                 <!-- Titolo -->
@@ -76,7 +99,7 @@
                 <!-- Pulsante elimina (solo in modifica) -->
                 <button
                     v-if="props.examId"
-                    @click="handleDelete"
+                    @click.prevent="showConfirmDelete = true"
                     class="p-2 bg-red-400 border-2 border-black rounded-xl text-black hover:bg-red-500 hover:text-white"
                     :disabled="loadingExams"
                 >

@@ -42,14 +42,14 @@ function getStripeColor(voto) {
       ></div>
 
       <!-- Contenuto card (aggiunto padding-left per non coprire la stripe) -->
-      <div class="flex items-center justify-between w-full pl-4 sm:pl-6">
+      <div class="flex items-center justify-between w-full pl-2 sm:pl-6">
         <!-- Info principali -->
         <div class="flex flex-col flex-1">
-          <h3 class="text-lg sm:text-xl font-bold text-black">
+          <h3 class="text-sm sm:text-xl font-bold text-black">
             {{ exam.nome }}
           </h3>
 
-          <p v-if="exam.voto !== -1" class="text-sm sm:text-base font-semibold text-black">
+          <p v-if="exam.voto !== -1" class="text-xs sm:text-base font-semibold text-black">
             Voto:
             <span
               class="font-bold"
@@ -58,19 +58,19 @@ function getStripeColor(voto) {
               {{ exam.voto === 0 ? 'Idoneità' : exam.voto < 18 ? 'Non superato' : exam.lode == true ? exam.voto + 'L' : exam.voto }}
             </span>
           </p>
-          <p v-else class="text-sm sm:text-base font-semibold text-black">
+          <p v-else class="text-xs sm:text-base font-semibold text-black">
             Voto: <span class="font-bold text-yellow-700">Da sostenere</span>
           </p>
         </div>
 
         <!-- Icone e dettagli -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-x-4 pr-2 sm:pr-0 sm:space-y-0">
-          <div class="flex items-center text-black text-sm font-semibold sm:text-base">
-            <CircleStackIcon class="w-5 h-5 mr-1 text-yellow-700" />
+          <div class="flex items-center text-black text-xs font-semibold sm:text-base">
+            <CircleStackIcon class="w-3 h-3 sm:w-5 sm:h-5mr-1 text-yellow-700" />
             <span>{{ exam.crediti }} cfu</span>
           </div>
-          <div class="flex items-center text-black text-sm font-semibold sm:text-base">
-            <CalendarIcon class="w-5 h-5 mr-1 text-blue-700" />
+          <div class="flex items-center text-black text-xs font-semibold sm:text-base">
+            <CalendarIcon class="w-3 h-3 sm:w-5 sm:h-5 mr-1 text-blue-700" />
             <span>{{ formatDate(exam.data) }}</span>
           </div>
         </div>
@@ -79,9 +79,9 @@ function getStripeColor(voto) {
         <button
           v-if="editable"
           @click="emits('editExam', exam)"
-          class="ml-4 px-3 py-1 border-2 border-black rounded-md bg-blue-300 hover:bg-blue-400 text-sm font-semibold"
+          class="ml-4 px-3 py-1 border-2 border-black rounded-md bg-blue-300 hover:bg-blue-400 text-xs font-semibold"
         >
-          <ChevronRightIcon class="w-5 h-5" />
+          <ChevronRightIcon class="w-3 h-3 sm:w-5 sm:h-5" />
         </button>
       </div>
     </div>

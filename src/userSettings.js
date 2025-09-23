@@ -88,7 +88,7 @@ function resetUserPreferences() {
 }
 
 // funzione personalizzata per usare le preferenze utente
-export function useUserProfile() {
+export function useUserPreferences() {
     return {
         preferenze: preferenze,
         loading: readonly(loading),

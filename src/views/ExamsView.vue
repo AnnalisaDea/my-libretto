@@ -14,9 +14,11 @@
     // stato della pagina
     const statoAttuale = ref("viewing"); // 'viewing' | 'adding' | 'editing'
     const loading = ref(false);
+    const erroreLocale = ref('');
 
     // per passare l'id dell'esame da modificare a ExamForm
     const currentExamId = ref(null);
+
     
     // chip attiva
     const activeFilter = ref("tutti");
@@ -43,7 +45,7 @@
             label: "Non superati",
             activeColor: "bg-red-300",
             inactiveColor: "bg-blue-100 hover:bg-red-100",
-            filterFn: exams => exams.filter(e => e.sostenuto && e.voto > -1 && e.voto < 18)
+            filterFn: exams => exams.filter(e => e.sostenuto && e.voto > 0 && e.voto < 18)
         },
         {
             key: "idoneita",
@@ -72,6 +74,7 @@
 
 
     onMounted (async () => {
+        erroreLocale.value = '';
         try {
             loading.value = true;
             await fetchExams();
@@ -81,7 +84,7 @@
                 statoAttuale.value = 'viewing';
             }
         } catch (error) {
-            console.error(error);
+            erroreLocale.value = error.message || 'Errore durante il caricamento degli esami.';
         } finally {
             loading.value = false;
         }
@@ -115,9 +118,10 @@
         </div>
 
         <!-- Stato di errore -->
-        <div v-if="errorExams" class="py-8 px-10 bg-red-200 border-2 border-black rounded-xl shadow-lg">
-            <p class="text-lg font-bold text-center">Errore durante il caricamento degli esami. Prova a ricaricare la pagina.</p>
+        <div v-if="errorExams || erroreLocale" class="py-8 px-10 bg-red-200 border-2 border-black rounded-xl shadow-lg">
+            <p class="text-lg font-bold text-center">{{ erroreLocale || errorExams }}</p>
         </div>
+
 
         <!-- Stato di visualizzazione -->
         <div v-if="statoAttuale === 'viewing' && !loading" class="w-full max-w-sm sm:max-w-lg lg:max-w-3xl flex flex-col items-center space-y-6">
@@ -127,13 +131,13 @@
             </h2>
 
             <!-- Chips sticky -->
-            <div class="w-full sticky top-20 z-10 bg-blue-100 sm:bg-transparent rounded-b-lg px-2 py-2">
+            <div class="w-full sticky top-20 z-10 bg-blue-100 rounded-b-lg px-2 py-2">
                 <div class="flex justify-start sm:justify-center gap-2 overflow-x-auto">
                     <button
                     v-for="f in filters"
                     :key="f.key"
                     @click="activeFilter = f.key"
-                    class="px-3 py-1 border-2 border-black text-sm font-semibold rounded-full transition flex-shrink-0"
+                    class="px-3 py-1 border-2 border-black text-xs sm:text-sm font-semibold rounded-full transition flex-shrink-0"
                     :class="[
                         activeFilter === f.key
                         ? `${f.activeColor} text-black`
@@ -160,7 +164,7 @@
                 <p class="text-lg font-bold text-center">Nessun esame trovato</p>
             </div>
 
-            <!-- Pulsante aggiungi come FAB -->
+            <!-- FAB -->
             <button
                 @click="handleAddExam"
                 class="fixed bottom-6 right-6 px-4 py-3 bg-green-400 border-2 border-black rounded-full shadow-lg hover:bg-green-500 font-bold"

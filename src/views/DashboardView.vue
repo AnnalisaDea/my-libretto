@@ -1,16 +1,15 @@
 <script setup>
-    import { computed } from 'vue';
     import { RouterLink } from 'vue-router';
     import { ref, onMounted } from 'vue';
     import { useAuth } from '../auth';
-    import { useUserProfile } from '../userProfile';
+    import { useUserPreferences } from '../userSettings';
     import { useExams } from '../exam';
     import { AcademicCapIcon } from '@heroicons/vue/24/outline';
     import ExamList from '@/components/ExamList.vue';
 
     import CardStatistic from '@/components/CardStatistic.vue';
 
-    const { preferenze, error, loading, fetchUserPreferences } = useUserProfile();
+    const { preferenze, error, loading, fetchUserPreferences } = useUserPreferences();
     const { 
             exams,  
             loadingExams,
@@ -44,20 +43,27 @@
 
         <!-- Stato di caricamento -->
         <div v-if="loading || loadingExams" class="py-8 px-10 bg-white border-2 border-black rounded-xl shadow-lg">
-        <p class="text-lg font-bold text-center">Caricamento...</p>
+            <p class="text-lg font-bold text-center">Caricamento...</p>
         </div>
+
+        <!-- Stato di errore -->
+        <div v-if="erroreLocale || error || errorExams" class="w-full max-w-sm sm:max-w-lg lg:max-w-3xl py-8 px-10 mb-8 bg-red-200 border-2 border-black rounded-xl shadow-lg">
+            <p class="text-md font-bold text-center">{{ erroreLocale || error || errorExams }}</p>
+        </div>
+
 
         <!-- Utente senza impostazioni -->
         <div v-if="!preferenze.setupCompleto && !loading && !loadingExams">
         <div class="flex flex-col items-center relative w-full max-w-sm sm:max-w-lg lg:max-w-3xl p-10 sm:p-16 lg:p-24 bg-white border-2 border-black rounded-xl shadow-lg">
+            <!-- Linguetta -->
             <div class="absolute z-10 -top-3 left-1/2 -translate-x-1/2 w-20 h-5 bg-pink-300 border-2 border-black rounded-sm shadow rotate-[-2deg]"></div>
             <h2 class="text-xl sm:text-2xl font-extrabold mb-4">Benvenut*</h2>
             <h1 class="pb-8 text-center">
-            Per iniziare ad usare <span class="font-bold">My Libretto</span> abbiamo bisogno di alcune informazioni sulla tua università. 
-            Vai in <span class="font-bold">Impostazioni</span> e compila il form per iniziare a monitorare il tuo percorso accademico!
+                Per iniziare ad usare <span class="font-bold">My Libretto</span> abbiamo bisogno di alcune informazioni sulla tua università. 
+                Vai in <span class="font-bold">Impostazioni</span> e compila il form per iniziare a monitorare il tuo percorso accademico!
             </h1>
             <RouterLink
-            to="/profile-setup"
+            to="/settings"
             class="px-4 sm:px-6 py-2 sm:py-3 bg-pink-300 border-2 border-black text-gray-900 rounded-md shadow hover:bg-pink-400 transition text-sm sm:text-base font-bold"
             >
             Iniziamo
@@ -66,7 +72,7 @@
         </div>
 
         <!-- Utente con impostazioni -->
-        <div v-if="preferenze.setupCompleto && !loading && !loadingExams" class="w-full max-w-7xl">
+        <div v-if="preferenze.setupCompleto && !loading && !loadingExams" class="w-full max-w-7xl ">
 
             <!-- Layout responsive: 1 colonna su mobile, 2 su desktop -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
@@ -75,7 +81,7 @@
                 <div class="flex flex-col gap-6">
                 
                     <!-- Card benvenuto -->
-                    <div class="relative flex justify-center p-6 border-2 border-black rounded-xl shadow-lg bg-white">
+                    <div class="relative flex justify-center p-6 border-2 border-black rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200 bg-white">
                         <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-5 bg-yellow-300 border-2 border-black rounded-sm shadow rotate-[-2deg]"></div>
                         <div class="flex items-start space-x-4 sm:space-x-10">
                             <div class="flex-shrink-0">
@@ -163,10 +169,7 @@
                     <!-- Elenco esami recenti -->
                     <div v-else class="w-full">
                         <h2 class="text-2xl sm:text-3xl font-extrabold mb-4 text-center">Esami recenti</h2>
-                        <ExamList class="w-full" :exams="exams.filter(exam => exam.voto !== -1)" :editable="false" :exams-viewed="5" />
-                        <div v-if="erroreLocale || error || errorExams" class="text-red-500 text-sm mt-6">
-                        {{ erroreLocale || error || errorExams }}
-                        </div>
+                        <ExamList class="w-full" :exams="exams.sort((a, b) => new Date(b.data) - new Date(a.data)).filter(exam => exam.voto !== -1)" :editable="false" :exams-viewed="5" />
                     </div>
                 </div>
             </div>

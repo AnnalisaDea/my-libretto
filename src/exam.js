@@ -1,11 +1,11 @@
 import { ref, reactive,readonly } from "vue";
-import { useUserProfile } from "./userProfile";
+import { useUserPreferences } from "./userSettings";
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { user } from './auth';
 
 
-const { preferenze } = useUserProfile();
+const { preferenze } = useUserPreferences();
 
 const exams = reactive([]); // Array reattivo per gli esami
 const exam = reactive({
@@ -95,7 +95,6 @@ async function fetchExams() {
 // Funzione per eliminare un esame
 async function deleteExam(id) {
     if (!id) throw new Error("Nessun id fornito per l'eliminazione.");
-    loadingExams.value = true;
     try {
         errorExams.value = null;
 
@@ -112,9 +111,7 @@ async function deleteExam(id) {
     } catch (err) {
         errorExams.value = err.message;
         throw err;
-    } finally {
-        loadingExams.value = false;
-    }
+    } 
 }
 
 

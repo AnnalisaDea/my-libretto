@@ -5,9 +5,10 @@ import { getAuth } from 'firebase/auth';
 import WelcomeView from '@/views/WelcomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
-import ProfileSetupView from '@/views/ProfileSetupView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import ExamsView from '@/views/ExamsView.vue'
+import SettingsView from '@/views/SettingsView.vue';
+import ProfileView from '@/views/ProfileView.vue';
 
 
 const routes = [
@@ -36,15 +37,21 @@ const routes = [
       meta: { requiresGuest: true }
     },
     {
-      path: '/profile-setup',
-      name: 'ProfileSetup',
-      component: ProfileSetupView,
+      path: '/settings',
+      name: 'Settings',
+      component: SettingsView,
       meta: { requiresAuth: true }
     },
     {
       path: '/exams',
       name: 'Exams',
       component: ExamsView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: ProfileView,
       meta: { requiresAuth: true }
     }
   ];

@@ -2,10 +2,10 @@
     import { ref } from "vue";
     import { RouterLink, useRoute, useRouter } from "vue-router";
     import { useAuth } from "../auth";
-    import { useUserProfile } from "@/userProfile";
+    import { useUserPreferences } from "@/userSettings";
     import { useExams } from "@/exam";
 
-    const { resetUserPreferences } = useUserProfile();
+    const { resetUserPreferences } = useUserPreferences();
     const { resetExams } = useExams();
     const router = useRouter()
     const route = useRoute();
@@ -15,7 +15,8 @@
 
     const menuItems = [
     { name: "Esami", to: "/exams", activeColor: "bg-blue-300", hoverColor: "bg-blue-200" },
-    { name: "Impostazioni", to: "/profile-setup", activeColor: "bg-pink-300", hoverColor: "bg-pink-200" },
+    { name: "Impostazioni", to: "/settings", activeColor: "bg-pink-300", hoverColor: "bg-pink-200" },
+    { name: "Profilo", to: "/profile", activeColor: "bg-green-300", hoverColor: "bg-green-200" }
     ];
 
     async function logoutUser() {
