@@ -69,7 +69,7 @@ router.beforeEach((to, from, next) => {
 
   // Se la rotta richiede autenticazione e l'utente NON è loggato
   if (requiresAuth && !currentUser) {
-    next('/login');
+    next('/welcome');
   // Se la rotta è per ospiti e l'utente è loggato  
   } else if (requiresGuest && currentUser) {
     // Reindirizza alla dashboard

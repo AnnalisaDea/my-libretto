@@ -31,6 +31,30 @@ const defaultPreferences = {
 const loading = ref(false);
 const error = ref(null);
 
+
+
+// Funzione per salvare le preferenze dell'utente nel database
+// Salva/aggiorna preferenze nel DB
+async function saveUserPreferences(user) {
+    loading.value = true;
+    try {
+        error.value = null;
+
+        const docRef = doc(db, "users", user.value.uid);
+
+        await setDoc(docRef, {
+            ...preferenze,
+            setupCompleto: true, // una volta salvato consideriamo setup fatto
+        });
+
+    } catch (err) {
+        error.value = err.message;
+        throw err;
+    } finally {
+        loading.value = false;
+    }
+}
+
 // Funzione per recuperare le preferenze dell'utente dal database
 async function fetchUserPreferences(user) {
     loading.value = true;
@@ -56,31 +80,7 @@ async function fetchUserPreferences(user) {
 };
 
 
-// Funzione per salvare le preferenze dell'utente nel database
-// Salva/aggiorna preferenze nel DB
-async function saveUserPreferences(user) {
-    loading.value = true;
-    try {
-        error.value = null;
-
-        const docRef = doc(db, "users", user.value.uid);
-
-        await setDoc(docRef, {
-            ...preferenze,
-            setupCompleto: true, // una volta salvato consideriamo setup fatto
-        });
-
-    } catch (err) {
-        error.value = err.message;
-        throw err;
-    } finally {
-        loading.value = false;
-    }
-}
-
 async function deleteUserProfile(user) {
-    if (!user.value) throw new Error("Nessun utente autenticato");
-
     loading.value = true;
     try {
         error.value = null;

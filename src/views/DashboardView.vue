@@ -5,8 +5,8 @@
     import { useUserPreferences } from '../userSettings';
     import { useExams } from '../exam';
     import { AcademicCapIcon } from '@heroicons/vue/24/outline';
-    import ExamList from '@/components/ExamList.vue';
 
+    import ExamList from '@/components/ExamList.vue';
     import CardStatistic from '@/components/CardStatistic.vue';
 
     const { preferenze, error, loading, fetchUserPreferences } = useUserPreferences();
@@ -92,12 +92,12 @@
                                 Benvenut*<span v-if="preferenze.nomeStudente">, {{ preferenze.nomeStudente }}</span>!
                                 </h2>
                                 <div v-if="preferenze.università || preferenze.corso" class="mb-1">
-                                <p class="text-lg sm:text-xl font-bold text-gray-900">
-                                    {{ preferenze.università }}
-                                </p>
-                                <p v-if="preferenze.corso" class="text-md sm:text-lg text-gray-700 font-semibold">
-                                    {{ preferenze.corso }}
-                                </p>
+                                    <p class="text-lg sm:text-xl font-bold text-gray-900">
+                                        {{ preferenze.università }}
+                                    </p>
+                                    <p v-if="preferenze.corso" class="text-md sm:text-lg text-gray-700 font-semibold">
+                                        {{ preferenze.corso }}
+                                    </p>
                                 </div>
                                 <p v-if="preferenze.matricola" class="text-sm text-gray-600 mb-1">Matricola: {{ preferenze.matricola }}</p>
                                 <p v-if="!preferenze.università && !preferenze.corso" class="pr-14 text-sm sm:text-base text-gray-600 italic">

@@ -1,4 +1,4 @@
-import { ref, reactive,readonly } from "vue";
+import { ref, reactive, readonly } from "vue";
 import { useUserPreferences } from "./userSettings";
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "./firebase";
@@ -53,13 +53,13 @@ async function updateExam(examId) {
 
         const docRef = doc(db, "users", user.value.uid, "exams", examId);
 
-        // exam NON contiene id, quindi lo puoi usare diretto
+        // exam NON contiene id
         await updateDoc(docRef, { ...exam });
 
         // aggiorna anche l'array exams locale
         const index = exams.findIndex(e => e.id === examId);
         if (index !== -1) {
-            exams[index] = { ...exam, id: examId }; // 👈 id lo rimetto SOLO nell'array locale
+            exams[index] = { ...exam, id: examId }; // id lo rimetto SOLO nell'array locale
         }
 
         resetExam(); // pulisce i campi del form
@@ -180,6 +180,7 @@ function calcolaProiezioneVotoLaurea(exams) {
     const esamiOrdinati = exams.filter(exam => exam.voto >= 18).sort((examA, examB) => {
         return examB.voto - examA.voto;
     })
+    console.log(esamiOrdinati);
     const esamiConsiderati = reactive([]);
 
     if (preferenze.EsamiEsclusi >= esamiOrdinati.length) {
@@ -222,6 +223,7 @@ export function useExams() {
         calcolaCreditiTotali,
         calcolaEsamiSuperati,
         calcolaProiezioneVotoLaurea,
+        resetExams,
         resetExam
     };
 }

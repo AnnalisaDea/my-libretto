@@ -65,7 +65,7 @@
                         title="Inserisci il numero totale di crediti previsti dal tuo piano di studi"
                         >
                         i
-                        <div class="absolute  bottom-full mb-2 hidden group-hover:block bg-black text-white text-xs rounded px-2 py-1">
+                        <div class="absolute bottom-full mb-2 hidden group-hover:block bg-black text-white text-xs rounded px-2 py-1">
                             Inserisci il numero totale di crediti previsti dal tuo piano di studi.
                         </div>
                         </span>

@@ -10,7 +10,7 @@
     const { resetUserPreferences } = useUserPreferences();
     const { resetExams } = useExams();
 
-    const { user, logout, changePassword, deleteAccount, error } = useAuth();
+    const { user, logout, changePassword, deleteAccount } = useAuth();
 
     const router = useRouter();
 
